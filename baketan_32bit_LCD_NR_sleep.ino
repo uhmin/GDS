@@ -131,7 +131,6 @@ void buzz(int freq, int jikan){
 void draw2LCD(int xPos, char popcount){   // LCDにグラフ表示
   int ypos[4];
   static int avg=0;
-  ypos[0]=popcount*SIZE;
   ypos[1]=BAD*SIZE;
   ypos[2]=VERYBAD*SIZE;
   ypos[3]=GOOD*SIZE;
@@ -147,9 +146,10 @@ void draw2LCD(int xPos, char popcount){   // LCDにグラフ表示
   // 検出時のマーカー描画
   if(popcount < 0){ // 静電気の影響を受けた表示
     TFTscreen.stroke(0,0,0);
-    TFTscreen.line(xPos, HEIGHT, xPos, HEIGHT-5);
+    TFTscreen.line(xPos, HEIGHT, xPos, HEIGHT-8);
     popcount*=-1;
   }
+  ypos[0]=popcount*SIZE;
   if(popcount > VERYBAD){
     TFTscreen.stroke(0,255,255);
     TFTscreen.line(xPos, HEIGHT, xPos, HEIGHT-18);
@@ -162,9 +162,6 @@ void draw2LCD(int xPos, char popcount){   // LCDにグラフ表示
   }else if(popcount == VERYGOOD){
     TFTscreen.stroke(255,0,0);
     TFTscreen.line(xPos, HEIGHT, xPos, HEIGHT-18);
-  }else{
-    TFTscreen.stroke(255,255,255);
-    TFTscreen.line(xPos, HEIGHT, xPos, HEIGHT-9);
   }
   
   avg=avg * 7/8 + ypos[0];
